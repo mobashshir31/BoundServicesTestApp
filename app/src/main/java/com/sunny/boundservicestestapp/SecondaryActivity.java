@@ -1,19 +1,16 @@
 package com.sunny.boundservicestestapp;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.os.IBinder;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ComponentName;
-import android.content.ServiceConnection;
-import com.sunny.boundservicestestapp.MyService.MyLocalBinder;
 
-public class MainActivity extends AppCompatActivity {
-
-
+public class SecondaryActivity extends AppCompatActivity {
     MyService myService;
     boolean isBound = false;
 
@@ -27,14 +24,10 @@ public class MainActivity extends AppCompatActivity {
         countText.setText(currentCount);
     }
 
-    public void changeToSec(View view){
-        Intent i = new Intent(this, SecondaryActivity.class);
-        startActivity(i);
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_secondary);
         Intent i = new Intent(this, MyService.class);
         bindService(i, myConnection, Context.BIND_AUTO_CREATE);
     }
@@ -42,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ServiceConnection myConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            MyLocalBinder binder = (MyLocalBinder) service;
+            MyService.MyLocalBinder binder = (MyService.MyLocalBinder) service;
             myService = binder.getService();
             isBound = true;
         }
@@ -52,5 +45,4 @@ public class MainActivity extends AppCompatActivity {
             isBound = false;
         }
     };
-
 }

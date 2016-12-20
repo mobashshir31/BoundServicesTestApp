@@ -12,6 +12,9 @@ public class MyService extends Service {
 
     private final IBinder myBinder = new MyLocalBinder();
 
+    private int count = 0;
+    public int getCount(){return count;}
+
     public MyService() {
     }
 
@@ -21,6 +24,7 @@ public class MyService extends Service {
     }
 
     public String getCurrentTime(){
+        count++;
         SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss", Locale.US);
         return (df.format(new Date()));
     }
