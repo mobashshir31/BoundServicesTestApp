@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SecondaryActivity extends AppCompatActivity {
     MyService myService;
@@ -30,6 +31,14 @@ public class SecondaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_secondary);
         Intent i = new Intent(this, MyService.class);
         bindService(i, myConnection, Context.BIND_AUTO_CREATE);
+        // this shows that the bindService does not happen until a certain time has passed
+        // so all the service dependent code must be done in onServiceConnected after the getService;
+        if(myService!=null){
+            Toast.makeText(this, "binded",Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(this, "not binded",Toast.LENGTH_LONG).show();
+        }
     }
 
     private ServiceConnection myConnection = new ServiceConnection() {
